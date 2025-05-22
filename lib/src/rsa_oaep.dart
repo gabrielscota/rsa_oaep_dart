@@ -6,24 +6,49 @@ import 'package:pointycastle/export.dart';
 import 'mgf1.dart';
 import 'utils.dart';
 
+/// Classe para operações RSAES-OAEP (PKCS#1 v2.1+).
+///
+/// Observação: Para interoperar com sistemas externos, sempre converta sua String para bytes (UTF-8) antes de criptografar,
+/// e converta o resultado descriptografado de bytes para String usando UTF-8.
+///
+/// Exemplo de uso:
+/// ```dart
+/// final oaep = RSAOAEP(hash: SHA256Digest());
+/// final messageBytes = Uint8List.fromList(utf8.encode('Mensagem secreta'));
+/// final cipher = oaep.encrypt(messageBytes, publicKey);
+/// final plainBytes = oaep.decrypt(cipher, privateKey);
+/// final plainText = utf8.decode(plainBytes);
+/// ```
 class RSAOAEP {
+  /// Cria uma instância de RSAOAEP para operações OAEP.
+  /// O [hash] define o algoritmo de hash usado para OAEP (ex: SHA-256).
+  RSAOAEP({required this.hash});
+
   final Digest hash;
-  final RSAPublicKey publicKey;
-  final RSAPrivateKey? privateKey;
-  final Uint8List label;
 
-  RSAOAEP({required this.hash, required this.publicKey, this.privateKey, Uint8List? label})
-      : label = label ?? Uint8List(0);
-
-  Uint8List encrypt(Uint8List message) {
+  /// Criptografa uma [message] (Uint8List) usando a [publicKey] (RSAPublicKey) e, opcionalmente, um [label] (Uint8List?).
+  ///
+  /// - [message]: mensagem a ser criptografada (Uint8List).
+  /// - [publicKey]: chave pública RSA (RSAPublicKey).
+  /// - [label]: rótulo opcional (Uint8List?), padrão é vazio.
+  ///
+  /// Retorna o ciphertext como Uint8List.
+  ///
+  /// Lança [ArgumentError] se a mensagem for muito longa para o tamanho da chave.
+  Uint8List encrypt(
+    Uint8List message,
+    RSAPublicKey publicKey, {
+    Uint8List? label,
+  }) {
     final k = (publicKey.modulus!.bitLength + 7) ~/ 8;
     final hLen = hash.digestSize;
+    final effectiveLabel = label ?? Uint8List(0);
 
     if (message.length > k - 2 * hLen - 2) {
       throw ArgumentError('Message too long');
     }
 
-    final lHash = _digest(label);
+    final lHash = _digest(effectiveLabel);
     final ps = Uint8List(k - message.length - 2 * hLen - 2);
     final db = Uint8List.fromList([...lHash, ...ps, 0x01, ...message]);
 
@@ -41,20 +66,30 @@ class RSAOAEP {
     return i2osp(c, k);
   }
 
-  Uint8List decrypt(Uint8List ciphertext) {
-    if (privateKey == null) {
-      throw StateError('Private key required for decryption');
-    }
-
-    final k = (privateKey!.modulus!.bitLength + 7) ~/ 8;
+  /// Descriptografa um [ciphertext] (Uint8List) usando a [privateKey] (RSAPrivateKey) e, opcionalmente, um [label] (Uint8List?).
+  ///
+  /// - [ciphertext]: dados criptografados (Uint8List).
+  /// - [privateKey]: chave privada RSA (RSAPrivateKey).
+  /// - [label]: rótulo opcional (Uint8List?), padrão é vazio.
+  ///
+  /// Retorna a mensagem descriptografada como Uint8List.
+  ///
+  /// Lança [ArgumentError] se os dados estiverem inválidos ou a descriptografia falhar.
+  Uint8List decrypt(
+    Uint8List ciphertext,
+    RSAPrivateKey privateKey, {
+    Uint8List? label,
+  }) {
+    final k = (privateKey.modulus!.bitLength + 7) ~/ 8;
     final hLen = hash.digestSize;
+    final effectiveLabel = label ?? Uint8List(0);
 
     if (ciphertext.length != k) {
       throw ArgumentError('Decryption error');
     }
 
     final c = os2ip(ciphertext);
-    final m = c.modPow(privateKey!.exponent!, privateKey!.modulus!);
+    final m = c.modPow(privateKey.exponent!, privateKey.modulus!);
     final em = i2osp(m, k);
 
     if (em[0] != 0x00) {
@@ -70,7 +105,7 @@ class RSAOAEP {
     final dbMask = mgf1(seed, k - hLen - 1, hash);
     final db = _xor(maskedDB, dbMask);
 
-    final lHash = _digest(label);
+    final lHash = _digest(effectiveLabel);
     final lHashPrime = db.sublist(0, hLen);
 
     if (!_equal(lHash, lHashPrime)) {

@@ -21,11 +21,11 @@ void main() {
     final publicKey = pair.publicKey;
     final privateKey = pair.privateKey;
 
-    final oaep = RSAOAEP(hash: SHA256Digest(), publicKey: publicKey, privateKey: privateKey);
+    final oaep = RSAOAEP(hash: SHA256Digest());
 
     final message = utf8.encode('Hello, Gabriel!');
-    final ciphertext = oaep.encrypt(message);
-    final decrypted = oaep.decrypt(ciphertext);
+    final ciphertext = oaep.encrypt(message, publicKey);
+    final decrypted = oaep.decrypt(ciphertext, privateKey);
 
     expect(decrypted, equals(message));
   });
@@ -42,7 +42,7 @@ void main() {
     final pair = generator.generateKeyPair();
 
     final publicKey = pair.publicKey;
-    final oaep = RSAOAEP(hash: SHA256Digest(), publicKey: publicKey);
+    final oaep = RSAOAEP(hash: SHA256Digest());
 
     final k = (publicKey.modulus!.bitLength + 7) ~/ 8;
     final hLen = SHA256Digest().digestSize;
@@ -50,7 +50,7 @@ void main() {
 
     final oversizedMessage = Uint8List(maxMessageLength + 1);
 
-    expect(() => oaep.encrypt(oversizedMessage), throwsArgumentError);
+    expect(() => oaep.encrypt(oversizedMessage, publicKey), throwsArgumentError);
   });
 
   test('RSAES-OAEP Decryption with wrong ciphertext length should throw', () {
@@ -64,13 +64,12 @@ void main() {
     final generator = RSAKeyGenerator()..init(rngParams);
     final pair = generator.generateKeyPair();
 
-    final publicKey = pair.publicKey;
     final privateKey = pair.privateKey;
 
-    final oaep = RSAOAEP(hash: SHA256Digest(), publicKey: publicKey, privateKey: privateKey);
+    final oaep = RSAOAEP(hash: SHA256Digest());
 
     final invalidCiphertext = Uint8List(10);
 
-    expect(() => oaep.decrypt(invalidCiphertext), throwsArgumentError);
+    expect(() => oaep.decrypt(invalidCiphertext, privateKey), throwsArgumentError);
   });
 }
