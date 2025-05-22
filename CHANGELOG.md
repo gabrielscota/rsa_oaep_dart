@@ -1,8 +1,14 @@
 # Changelog
 
-## [0.1.0] - 2025-05-22
+## [0.1.1] - 2025-05-22
 
 ### Added
+
+- Aviso de segurança no `README.md` sobre limites da implementação pura em Dart.
+
+## [0.1.0] - 2025-05-22
+
+### New Features
 
 - Implementação completa de RSAES-OAEP com MGF1.
 - Suporte a criptografia e descriptografia com SHA-256.

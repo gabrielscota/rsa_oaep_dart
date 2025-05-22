@@ -1,6 +1,6 @@
 name: rsa_oaep_dart
 description: "Pure Dart implementation of RSAES-OAEP (PKCS#1 v2.2)"
-version: 0.1.0
+version: 0.1.1
 
 homepage: https://github.com/gabrielscota/rsa_oaep_dart
 repository: https://github.com/gabrielscota/rsa_oaep_dart

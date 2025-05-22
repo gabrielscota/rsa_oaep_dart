@@ -1,6 +1,8 @@
 # RSA OAEP Dart Library
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Pub Version](https://img.shields.io/pub/v/rsa_oaep_dart.svg)](https://pub.dev/packages/rsa_oaep_dart)
+[![Test](https://github.com/gabrielscota/rsa_oaep_dart/actions/workflows/test.yml/badge.svg)](https://github.com/gabrielscota/rsa_oaep_dart/actions/workflows/test.yml)
 
 Implementação completa e pura de **RSAES-OAEP** (PKCS#1 v2.2) em **Dart**, com suporte a **SHA-256**.  
 Ideal para projetos que precisam de **criptografia assimétrica segura**, sem dependências nativas.
@@ -27,18 +29,18 @@ Adicione ao `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  rsa_oaep_dart:
-    git:
-      url: <REPOSITÓRIO_INTERNO_GIT>
+  rsa_oaep_dart: ^0.1.1
 ```
 
-ou clone e copie `lib/` para seu projeto.
+Disponível no [pub.dev](https://pub.dev/packages/rsa_oaep_dart).
 
 ### Importar
 
 ```dart
 import 'package:rsa_oaep_dart/rsa_oaep_dart.dart';
 ```
+
+Veja mais detalhes na [documentação oficial](https://pub.dev/documentation/rsa_oaep_dart/latest/).
 
 ## 💻 Exemplos
 
@@ -86,8 +88,24 @@ Esta implementação segue as boas práticas de segurança para operações crip
 - [ ] Suporte a SHA-1, SHA-512  
 - [ ] Suporte a labels customizados  
 - [ ] Automatização com CI/CD  
-- [ ] Publicação no pub.dev  
 
 ## 📄 Licença
 
 MIT — veja o arquivo [LICENSE](LICENSE).
+
+## ⚠️ Aviso de Segurança
+
+Esta biblioteca é uma **implementação pura em Dart** dos algoritmos RSA OAEP com MGF1 e SHA-256.  
+Ela **não foi auditada** por especialistas em segurança para uso em ambientes críticos ou produção sensível.  
+
+**Recomenda-se**:  
+✅ Revisão do código por especialistas antes de uso em sistemas de segurança sensível.  
+✅ Utilização consciente das limitações de uma implementação em linguagem de alto nível como Dart.  
+
+Esta biblioteca é ideal para:  
+
+- Prototipagem  
+- Estudos  
+- Aplicações não críticas
+
+Mas pode **não ser adequada** para casos onde segurança formalmente auditada é obrigatória.
