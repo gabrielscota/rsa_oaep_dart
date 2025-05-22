@@ -7,34 +7,31 @@ CIPHERTEXT_OPENSSL = ciphertext_openssl.bin
 PLAINTEXT_OUT = plaintext_out.txt
 
 all:
-	@while true; do \
-		echo "\033[1;34m🛠️  Menu de operações RSA OAEP:\033[0m"; \
-		echo ""; \
-		echo "1) Gerar par de chaves RSA"; \
-		echo "2) Criptografar com Dart"; \
-		echo "3) Descriptografar com OpenSSL"; \
-		echo "4) Criptografar com OpenSSL"; \
-		echo "5) Descriptografar com Dart"; \
-		echo "6) Limpar arquivos gerados"; \
-		echo "7) Executar todos os passos"; \
-		echo "8) Executar todos os passos e limpar arquivos"; \
-		echo "9) Sair"; \
-		echo ""; \
-		read -p "$(echo -e '\033[1;33mEscolha uma opção [1-9]: \033[0m')" opt; \
-		case $$opt in \
-			1) $(MAKE) keys ;; \
-			2) $(MAKE) encrypt_dart ;; \
-			3) $(MAKE) decrypt_openssl ;; \
-			4) $(MAKE) encrypt_openssl ;; \
-			5) $(MAKE) decrypt_dart ;; \
-			6) $(MAKE) clean ;; \
-			7) $(MAKE) keys encrypt_dart decrypt_openssl encrypt_openssl decrypt_dart ;; \
-			8) $(MAKE) keys encrypt_dart decrypt_openssl encrypt_openssl decrypt_dart clean ;; \
-			9) echo "\033[1;31mSaindo...\033[0m"; exit 0 ;; \
-			*) echo "\033[1;31mOpção inválida\033[0m";; \
-		esac; \
-		echo ""; \
-	done
+	@echo "\033[1;34m🛠️  Menu de operações RSA OAEP:\033[0m"; \
+	echo ""; \
+	echo "1) Gerar par de chaves RSA"; \
+	echo "2) Criptografar com Dart"; \
+	echo "3) Descriptografar com OpenSSL"; \
+	echo "4) Criptografar com OpenSSL"; \
+	echo "5) Descriptografar com Dart"; \
+	echo "6) Limpar arquivos gerados"; \
+	echo "7) Executar todos os passos"; \
+	echo "8) Executar todos os passos e limpar arquivos"; \
+	echo "9) Sair"; \
+	echo ""; \
+	read -p "$(echo -e '\033[1;33mEscolha uma opção [1-9]: \033[0m')" opt; \
+	case $$opt in \
+		1) $(MAKE) keys ;; \
+		2) $(MAKE) encrypt_dart ;; \
+		3) $(MAKE) decrypt_openssl ;; \
+		4) $(MAKE) encrypt_openssl ;; \
+		5) $(MAKE) decrypt_dart ;; \
+		6) $(MAKE) clean ;; \
+		7) $(MAKE) keys encrypt_dart decrypt_openssl encrypt_openssl decrypt_dart ;; \
+		8) $(MAKE) keys encrypt_dart decrypt_openssl encrypt_openssl decrypt_dart clean ;; \
+		9) echo "\033[1;31mSaindo...\033[0m"; exit 0 ;; \
+		*) echo "\033[1;31mOpção inválida\033[0m"; exit 1 ;; \
+	esac
 
 keys:
 	@echo "\033[1;34m🔑 Gerando par de chaves RSA...\033[0m"
