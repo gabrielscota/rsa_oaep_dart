@@ -9,8 +9,7 @@ documentation: https://github.com/gabrielscota/rsa_oaep_dart#readme
 license: MIT
 
 environment:
-  sdk: ^3.8.0
-  flutter: ">=1.17.0"
+  sdk: ^3.0.0
 
 dependencies:
   asn1lib: ^1.6.4

@@ -3,6 +3,8 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Pub Version](https://img.shields.io/pub/v/rsa_oaep_dart.svg)](https://pub.dev/packages/rsa_oaep_dart)
 [![Test](https://github.com/gabrielscota/rsa_oaep_dart/actions/workflows/test.yml/badge.svg)](https://github.com/gabrielscota/rsa_oaep_dart/actions/workflows/test.yml)
+[![Dart SDK](https://img.shields.io/badge/Dart-%3E%3D3.0.0-blue)](https://dart.dev)
+[![codecov](https://codecov.io/gh/gabrielscota/rsa_oaep_dart/branch/main/graph/badge.svg)](https://codecov.io/gh/gabrielscota/rsa_oaep_dart)
 
 Implementação completa e pura de **RSAES-OAEP** (PKCS#1 v2.2) em **Dart**, com suporte a **SHA-256**.  
 Ideal para projetos que precisam de **criptografia assimétrica segura**, sem dependências nativas.
@@ -41,6 +43,18 @@ import 'package:rsa_oaep_dart/rsa_oaep_dart.dart';
 ```
 
 Veja mais detalhes na [documentação oficial](https://pub.dev/documentation/rsa_oaep_dart/latest/).
+
+## 📦 Compatibilidade
+
+Esta biblioteca é compatível com **Dart SDK 3.0.0 ou superior**.
+
+Dart 3.0.0 foi lançado em maio de 2023, junto com **Flutter 3.10**.  
+Portanto, este pacote é compatível com projetos que utilizam:  
+
+- **Dart**: >=3.0.0 <4.0.0  
+- **Flutter**: >=3.10.0
+
+Se o seu projeto ainda utiliza uma versão anterior do Dart ou Flutter, será necessário atualizá-lo para utilizar este pacote.
 
 ## 💻 Exemplos
 
@@ -109,3 +123,19 @@ Esta biblioteca é ideal para:
 - Aplicações não críticas
 
 Mas pode **não ser adequada** para casos onde segurança formalmente auditada é obrigatória.
+
+## 📊 Integração com Codecov
+
+Este projeto utiliza [Codecov](https://codecov.io/) para monitoramento de **cobertura de testes**.
+
+A cada `push` ou `pull request` para a branch `main`, o **GitHub Actions** executa automaticamente:
+
+- Análise de código
+- Testes automatizados
+- Geração de relatório de cobertura (`lcov.info`)
+- Upload para o Codecov
+
+O badge no topo deste README exibe a cobertura atualizada.
+
+Para visualizar o relatório completo, acesse:  
+[https://codecov.io/gh/gabrielscota/rsa_oaep_dart](https://codecov.io/gh/gabrielscota/rsa_oaep_dart)
