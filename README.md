@@ -91,6 +91,46 @@ Esta implementação segue as boas práticas de segurança para operações crip
 - Uso correto de OAEP e MGF1  
 - Tratamento de mensagens inválidas
 
+## 📚 Interoperabilidade & Boas Práticas
+
+### Conversão de mensagens
+
+Para garantir interoperabilidade com sistemas externos (KMS, OpenSSL, etc.):
+
+- **Sempre converta** sua mensagem para bytes usando UTF-8 ANTES de criptografar:
+
+  ```dart
+  Uint8List messageBytes = Uint8List.fromList(utf8.encode('Sua mensagem aqui'));
+  ```
+
+- Para descriptografar, o resultado será `Uint8List` (bytes).
+  - Para converter de volta para `String`:
+
+  ```dart
+  String mensagem = utf8.decode(decryptedBytes);
+  ```
+
+### Transmissão e armazenamento
+
+- Se precisar transmitir ou armazenar o `ciphertext`, use Base64:
+
+  ```dart
+  String ciphertextB64 = base64.encode(ciphertextBytes);
+  Uint8List ciphertextBytes = base64.decode(ciphertextB64);
+  ```
+
+### Sobre Base64
+
+- Use `base64.decode()` **apenas** se a entrada foi originalmente codificada em Base64.
+- Não converta a mensagem original para Base64 antes de criptografar — utilize sempre bytes UTF-8.
+
+### Resumo
+
+- Entrada e saída dos métodos são sempre em `Uint8List` (bytes).
+- O usuário é responsável pela conversão adequada da mensagem e do ciphertext, conforme a necessidade da aplicação.
+
+Veja exemplos completos na [documentação oficial](https://pub.dev/documentation/rsa_oaep_dart/latest/).
+
 ## ⚠️ Aviso de Segurança
 
 Esta biblioteca é uma **implementação pura em Dart** dos algoritmos RSA OAEP com MGF1 e SHA-256.  
