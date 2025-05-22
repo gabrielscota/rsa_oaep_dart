@@ -91,6 +91,23 @@ Esta implementação segue as boas práticas de segurança para operações crip
 - Uso correto de OAEP e MGF1  
 - Tratamento de mensagens inválidas
 
+## ⚠️ Aviso de Segurança
+
+Esta biblioteca é uma **implementação pura em Dart** dos algoritmos RSA OAEP com MGF1 e SHA-256.  
+Ela **não foi auditada** por especialistas em segurança para uso em ambientes críticos ou produção sensível.  
+
+**Recomenda-se**:  
+✅ Revisão do código por especialistas antes de uso em sistemas de segurança sensível.  
+✅ Utilização consciente das limitações de uma implementação em linguagem de alto nível como Dart.  
+
+Esta biblioteca é ideal para:  
+
+- Prototipagem  
+- Estudos  
+- Aplicações não críticas
+
+Mas pode **não ser adequada** para casos onde segurança formalmente auditada é obrigatória.
+
 ## 📊 Integração com Codecov
 
 Este projeto utiliza [Codecov](https://codecov.io/) para monitoramento de **cobertura de testes**.
@@ -116,20 +133,3 @@ Para visualizar o relatório completo, acesse:
 ## 📄 Licença
 
 MIT — veja o arquivo [LICENSE](LICENSE).
-
-## ⚠️ Aviso de Segurança
-
-Esta biblioteca é uma **implementação pura em Dart** dos algoritmos RSA OAEP com MGF1 e SHA-256.  
-Ela **não foi auditada** por especialistas em segurança para uso em ambientes críticos ou produção sensível.  
-
-**Recomenda-se**:  
-✅ Revisão do código por especialistas antes de uso em sistemas de segurança sensível.  
-✅ Utilização consciente das limitações de uma implementação em linguagem de alto nível como Dart.  
-
-Esta biblioteca é ideal para:  
-
-- Prototipagem  
-- Estudos  
-- Aplicações não críticas
-
-Mas pode **não ser adequada** para casos onde segurança formalmente auditada é obrigatória.
