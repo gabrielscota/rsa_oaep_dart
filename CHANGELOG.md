@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.1.3] - 2025-05-22
+
+### Added
+
+- Criação da classe `RSAKeyUtils` para organização de métodos auxiliares relacionados a chaves.
+- Método `generateKeyPair` adicionado em `RSAKeyUtils`, com parâmetros configuráveis: `publicExponent`, `bitLength` e `certainty`.
+- Testes automatizados para `RSAKeyUtils.generateKeyPair`, garantindo cobertura de 100%.
+- Nova documentação no método `generateKeyPair`, incluindo exemplo de uso e explicação dos parâmetros.
+
+### Changed
+
+- Refatoração: método `generateKeyPair` movido de `RSAOAEP` para `RSAKeyUtils` para respeitar o princípio da responsabilidade única (SRP).
+- Atualização dos testes: descrições dos casos de teste agora em inglês e mais descritivas.
+
 ## [0.1.2] - 2025-05-22
 
 ### Added

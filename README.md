@@ -37,7 +37,7 @@ Adicione ao `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  rsa_oaep_dart: ^0.1.1
+  rsa_oaep_dart: ^0.1.3
 ```
 
 Disponível no [pub.dev](https://pub.dev/packages/rsa_oaep_dart).
