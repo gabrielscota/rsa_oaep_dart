@@ -13,7 +13,7 @@ class RSAOAEP {
   final Uint8List label;
 
   RSAOAEP({required this.hash, required this.publicKey, this.privateKey, Uint8List? label})
-    : label = label ?? Uint8List(0);
+      : label = label ?? Uint8List(0);
 
   Uint8List encrypt(Uint8List message) {
     final k = (publicKey.modulus!.bitLength + 7) ~/ 8;
