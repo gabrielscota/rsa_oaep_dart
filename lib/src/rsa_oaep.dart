@@ -146,4 +146,29 @@ class RSAOAEP {
     }
     return result == 0;
   }
+
+  /// Gera um par de chaves RSA (pública e privada).
+  ///
+  /// [bitLength] define o tamanho das chaves em bits (ex: 2048, 3072, 4096).
+  ///
+  /// Retorna uma instância de [AsymmetricKeyPair<RSAPublicKey, RSAPrivateKey>].
+  ///
+  /// Exemplo de uso:
+  /// ```dart
+  /// final keyPair = RSAOAEP.generateKeyPair(bitLength: 2048);
+  /// final publicKey = keyPair.publicKey;
+  /// final privateKey = keyPair.privateKey;
+  /// ```
+  static AsymmetricKeyPair<RSAPublicKey, RSAPrivateKey> generateKeyPair({int bitLength = 2048}) {
+    final keyParams = RSAKeyGeneratorParameters(BigInt.parse('65537'), bitLength, 64);
+    final secureRandom = FortunaRandom();
+    final random = Random.secure();
+    final seeds = List<int>.generate(32, (_) => random.nextInt(256));
+    secureRandom.seed(KeyParameter(Uint8List.fromList(seeds)));
+
+    final generator = RSAKeyGenerator()..init(ParametersWithRandom(keyParams, secureRandom));
+
+    final pair = generator.generateKeyPair();
+    return AsymmetricKeyPair<RSAPublicKey, RSAPrivateKey>(pair.publicKey, pair.privateKey);
+  }
 }

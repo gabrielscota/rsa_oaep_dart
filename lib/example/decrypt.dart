@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:pointycastle/export.dart';
 import 'package:rsa_oaep_dart/rsa_oaep_dart.dart';
 
 // ignore_for_file: avoid_print

@@ -1,22 +1,12 @@
 import 'dart:convert';
-import 'dart:math';
 import 'dart:typed_data';
 
-import 'package:pointycastle/export.dart';
 import 'package:rsa_oaep_dart/rsa_oaep_dart.dart';
 import 'package:test/test.dart';
 
 void main() {
   test('RSAES-OAEP Encryption and Decryption', () {
-    final keyParams = RSAKeyGeneratorParameters(BigInt.parse('65537'), 2048, 5);
-    final secureRandom = FortunaRandom();
-    final random = Random.secure();
-    final seeds = List<int>.generate(32, (_) => random.nextInt(256));
-    secureRandom.seed(KeyParameter(Uint8List.fromList(seeds)));
-
-    final rngParams = ParametersWithRandom(keyParams, secureRandom);
-    final generator = RSAKeyGenerator()..init(rngParams);
-    final pair = generator.generateKeyPair();
+    final pair = RSAKeyUtils.generateKeyPair(bitLength: 2048);
 
     final publicKey = pair.publicKey;
     final privateKey = pair.privateKey;
@@ -31,15 +21,7 @@ void main() {
   });
 
   test('RSAES-OAEP Encryption with oversized message should throw', () {
-    final keyParams = RSAKeyGeneratorParameters(BigInt.parse('65537'), 1024, 5);
-    final secureRandom = FortunaRandom();
-    final random = Random.secure();
-    final seeds = List<int>.generate(32, (_) => random.nextInt(256));
-    secureRandom.seed(KeyParameter(Uint8List.fromList(seeds)));
-
-    final rngParams = ParametersWithRandom(keyParams, secureRandom);
-    final generator = RSAKeyGenerator()..init(rngParams);
-    final pair = generator.generateKeyPair();
+    final pair = RSAKeyUtils.generateKeyPair(bitLength: 1024);
 
     final publicKey = pair.publicKey;
     final oaep = RSAOAEP(hash: SHA256Digest());
@@ -54,15 +36,7 @@ void main() {
   });
 
   test('RSAES-OAEP Decryption with wrong ciphertext length should throw', () {
-    final keyParams = RSAKeyGeneratorParameters(BigInt.parse('65537'), 2048, 5);
-    final secureRandom = FortunaRandom();
-    final random = Random.secure();
-    final seeds = List<int>.generate(32, (_) => random.nextInt(256));
-    secureRandom.seed(KeyParameter(Uint8List.fromList(seeds)));
-
-    final rngParams = ParametersWithRandom(keyParams, secureRandom);
-    final generator = RSAKeyGenerator()..init(rngParams);
-    final pair = generator.generateKeyPair();
+    final pair = RSAKeyUtils.generateKeyPair(bitLength: 2048);
 
     final privateKey = pair.privateKey;
 
