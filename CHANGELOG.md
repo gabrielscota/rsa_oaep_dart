@@ -8,7 +8,7 @@
 
 ## [0.1.0] - 2025-05-22
 
-### New Features
+### Added
 
 - Implementação completa de RSAES-OAEP com MGF1.
 - Suporte a criptografia e descriptografia com SHA-256.

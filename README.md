@@ -9,6 +9,18 @@
 Implementação completa e pura de **RSAES-OAEP** (PKCS#1 v2.2) em **Dart**, com suporte a **SHA-256**.  
 Ideal para projetos que precisam de **criptografia assimétrica segura**, sem dependências nativas.
 
+## 📦 Compatibilidade
+
+Esta biblioteca é compatível com **Dart SDK 3.0.0 ou superior**.
+
+Dart 3.0.0 foi lançado em maio de 2023, junto com **Flutter 3.10**.  
+Portanto, este pacote é compatível com projetos que utilizam:  
+
+- **Dart**: >=3.0.0 <4.0.0  
+- **Flutter**: >=3.10.0
+
+Se o seu projeto ainda utiliza uma versão anterior do Dart ou Flutter, será necessário atualizá-lo para utilizar este pacote.
+
 ## 🚀 Funcionalidades
 
 ✅ Suporte ao esquema **RSAES-OAEP** com MGF1.  
@@ -16,12 +28,6 @@ Ideal para projetos que precisam de **criptografia assimétrica segura**, sem de
 ✅ Interoperável com **OpenSSL** (criptografia e descriptografia).  
 ✅ Testes automatizados e exemplos práticos.  
 ✅ Código puro Dart, ideal para Flutter e backend.
-
-## 📦 Estrutura
-
-- `lib/src/` → Implementação da biblioteca.  
-- `test/` → Testes automatizados com `package:test`.  
-- `lib/example/` → Scripts de exemplo (`encrypt.dart`, `decrypt.dart`), `Makefile` e arquivos gerados.
 
 ## 🛠️ Como usar
 
@@ -43,18 +49,6 @@ import 'package:rsa_oaep_dart/rsa_oaep_dart.dart';
 ```
 
 Veja mais detalhes na [documentação oficial](https://pub.dev/documentation/rsa_oaep_dart/latest/).
-
-## 📦 Compatibilidade
-
-Esta biblioteca é compatível com **Dart SDK 3.0.0 ou superior**.
-
-Dart 3.0.0 foi lançado em maio de 2023, junto com **Flutter 3.10**.  
-Portanto, este pacote é compatível com projetos que utilizam:  
-
-- **Dart**: >=3.0.0 <4.0.0  
-- **Flutter**: >=3.10.0
-
-Se o seu projeto ainda utiliza uma versão anterior do Dart ou Flutter, será necessário atualizá-lo para utilizar este pacote.
 
 ## 💻 Exemplos
 
@@ -97,6 +91,22 @@ Esta implementação segue as boas práticas de segurança para operações crip
 - Uso correto de OAEP e MGF1  
 - Tratamento de mensagens inválidas
 
+## 📊 Integração com Codecov
+
+Este projeto utiliza [Codecov](https://codecov.io/) para monitoramento de **cobertura de testes**.
+
+A cada `push` ou `pull request` para a branch `main`, o **GitHub Actions** executa automaticamente:
+
+- Análise de código
+- Testes automatizados
+- Geração de relatório de cobertura (`lcov.info`)
+- Upload para o Codecov
+
+O badge no topo deste README exibe a cobertura atualizada.
+
+Para visualizar o relatório completo, acesse:  
+[https://codecov.io/gh/gabrielscota/rsa_oaep_dart](https://codecov.io/gh/gabrielscota/rsa_oaep_dart)
+
 ## ✅ Roadmap
 
 - [ ] Suporte a SHA-1, SHA-512  
@@ -123,19 +133,3 @@ Esta biblioteca é ideal para:
 - Aplicações não críticas
 
 Mas pode **não ser adequada** para casos onde segurança formalmente auditada é obrigatória.
-
-## 📊 Integração com Codecov
-
-Este projeto utiliza [Codecov](https://codecov.io/) para monitoramento de **cobertura de testes**.
-
-A cada `push` ou `pull request` para a branch `main`, o **GitHub Actions** executa automaticamente:
-
-- Análise de código
-- Testes automatizados
-- Geração de relatório de cobertura (`lcov.info`)
-- Upload para o Codecov
-
-O badge no topo deste README exibe a cobertura atualizada.
-
-Para visualizar o relatório completo, acesse:  
-[https://codecov.io/gh/gabrielscota/rsa_oaep_dart](https://codecov.io/gh/gabrielscota/rsa_oaep_dart)
