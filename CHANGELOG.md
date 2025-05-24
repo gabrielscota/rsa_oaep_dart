@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.4] - 2025-05-22
+
+### Added
+
+- Métodos `encryptString` e `decryptString` adicionados na classe `RSAOAEP` para facilitar operações diretas com `String` e integração com sistemas que utilizam Base64.
+- Testes automatizados para `encryptString` e `decryptString`, garantindo cobertura total.
+- Fluxo automatizado no `Makefile` para criptografar `String` com Dart, gerar binário compatível e descriptografar com OpenSSL.
+
 ## [0.1.3] - 2025-05-22
 
 ### Added
