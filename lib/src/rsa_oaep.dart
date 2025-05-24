@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
 
@@ -66,6 +67,24 @@ class RSAOAEP {
     return i2osp(c, k);
   }
 
+  /// Criptografa uma [message] (String) e retorna o ciphertext codificado em Base64.
+  ///
+  /// Internamente, converte a String para bytes usando UTF-8, criptografa e codifica o resultado em Base64.
+  ///
+  /// Exemplo:
+  /// ```dart
+  /// final encryptedBase64 = oaep.encryptString("Hello", publicKey);
+  /// ```
+  String encryptString(
+    String message,
+    RSAPublicKey publicKey, {
+    Uint8List? label,
+  }) {
+    final messageBytes = Uint8List.fromList(utf8.encode(message));
+    final ciphertext = encrypt(messageBytes, publicKey, label: label);
+    return base64.encode(ciphertext);
+  }
+
   /// Descriptografa um [ciphertext] (Uint8List) usando a [privateKey] (RSAPrivateKey) e, opcionalmente, um [label] (Uint8List?).
   ///
   /// - [ciphertext]: dados criptografados (Uint8List).
@@ -124,6 +143,24 @@ class RSAOAEP {
     return db.sublist(index + 1);
   }
 
+  /// Descriptografa um [ciphertextBase64] (String) e retorna a mensagem descriptografada como String.
+  ///
+  /// Internamente, decodifica o Base64 para bytes, descriptografa e converte o resultado para String usando UTF-8.
+  ///
+  /// Exemplo:
+  /// ```dart
+  /// final decryptedMessage = oaep.decryptString(ciphertextBase64, privateKey);
+  /// ```
+  String decryptString(
+    String ciphertextBase64,
+    RSAPrivateKey privateKey, {
+    Uint8List? label,
+  }) {
+    final ciphertextBytes = base64.decode(ciphertextBase64);
+    final plainBytes = decrypt(ciphertextBytes, privateKey, label: label);
+    return utf8.decode(plainBytes);
+  }
+
   Uint8List _digest(Uint8List data) {
     hash.reset();
     return hash.process(data);
@@ -145,30 +182,5 @@ class RSAOAEP {
       result |= a[i] ^ b[i];
     }
     return result == 0;
-  }
-
-  /// Gera um par de chaves RSA (pública e privada).
-  ///
-  /// [bitLength] define o tamanho das chaves em bits (ex: 2048, 3072, 4096).
-  ///
-  /// Retorna uma instância de [AsymmetricKeyPair<RSAPublicKey, RSAPrivateKey>].
-  ///
-  /// Exemplo de uso:
-  /// ```dart
-  /// final keyPair = RSAOAEP.generateKeyPair(bitLength: 2048);
-  /// final publicKey = keyPair.publicKey;
-  /// final privateKey = keyPair.privateKey;
-  /// ```
-  static AsymmetricKeyPair<RSAPublicKey, RSAPrivateKey> generateKeyPair({int bitLength = 2048}) {
-    final keyParams = RSAKeyGeneratorParameters(BigInt.parse('65537'), bitLength, 64);
-    final secureRandom = FortunaRandom();
-    final random = Random.secure();
-    final seeds = List<int>.generate(32, (_) => random.nextInt(256));
-    secureRandom.seed(KeyParameter(Uint8List.fromList(seeds)));
-
-    final generator = RSAKeyGenerator()..init(ParametersWithRandom(keyParams, secureRandom));
-
-    final pair = generator.generateKeyPair();
-    return AsymmetricKeyPair<RSAPublicKey, RSAPrivateKey>(pair.publicKey, pair.privateKey);
   }
 }

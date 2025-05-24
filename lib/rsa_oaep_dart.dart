@@ -1,9 +1,8 @@
 library;
 
-// Export SHA256 digest from pointycastle
 // This is a workaround to avoid importing the entire pointycastle library
-// and only include the necessary SHA256 digest implementation.
-export 'package:pointycastle/digests/sha256.dart';
+// and only include the necessary parts.
+export 'package:pointycastle/export.dart' show SHA256Digest, AsymmetricKeyPair, RSAPublicKey, RSAPrivateKey;
 
 export 'src/mgf1.dart';
 export 'src/rsa_key_parser.dart';

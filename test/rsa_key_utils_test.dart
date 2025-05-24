@@ -1,4 +1,3 @@
-import 'package:pointycastle/export.dart';
 import 'package:rsa_oaep_dart/rsa_oaep_dart.dart';
 import 'package:test/test.dart';
 

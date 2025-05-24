@@ -46,4 +46,25 @@ void main() {
 
     expect(() => oaep.decrypt(invalidCiphertext, privateKey), throwsArgumentError);
   });
+
+  group('RSAOAEP String methods', () {
+    final pair = RSAKeyUtils.generateKeyPair(bitLength: 2048);
+    final oaep = RSAOAEP(hash: SHA256Digest());
+
+    test('encryptString and decryptString should return original message', () {
+      final message = 'Test message for RSA OAEP';
+      final encryptedBase64 = oaep.encryptString(message, pair.publicKey);
+      final decryptedMessage = oaep.decryptString(encryptedBase64, pair.privateKey);
+
+      expect(decryptedMessage, equals(message));
+    });
+
+    test('encryptString should produce a non-empty base64 string', () {
+      final message = 'Another test';
+      final encryptedBase64 = oaep.encryptString(message, pair.publicKey);
+
+      expect(encryptedBase64, isNotEmpty);
+      expect(base64.decode(encryptedBase64), isA<List<int>>());
+    });
+  });
 }
