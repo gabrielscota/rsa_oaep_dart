@@ -3,23 +3,53 @@ import 'dart:typed_data';
 
 import 'package:pointycastle/export.dart';
 
-/// Utilitários para geração e manipulação de chaves RSA.
+/// Utilities for RSA key generation and manipulation.
+///
+/// This class provides static methods for generating cryptographically secure
+/// RSA key pairs using the PointyCastle cryptographic library.
+///
+/// The generated keys can be used for RSA-OAEP encryption/decryption operations
+/// and other RSA-based cryptographic functions.
 class RSAKeyUtils {
-  /// Gera um par de chaves RSA (pública e privada).
+  /// Generates an RSA key pair (public and private keys).
   ///
-  /// Parâmetros nomeados:
-  /// - [publicExponent]: expoente público (padrão: 65537).
-  /// - [bitLength]: tamanho das chaves em bits (ex: 2048, 3072, 4096, padrão: 2048).
-  /// - [certainty]: nível de certeza para teste de primalidade dos primos (padrão: 64).
+  /// Creates a cryptographically secure RSA key pair using the specified
+  /// parameters. The keys are generated using a secure random number generator
+  /// seeded with cryptographically secure random data.
   ///
-  /// Retorna uma instância de [AsymmetricKeyPair<RSAPublicKey, RSAPrivateKey>].
+  /// Named parameters:
+  /// - [publicExponent]: The public exponent (default: 65537, recommended value)
+  /// - [bitLength]: The key size in bits (e.g., 2048, 3072, 4096, default: 2048)
+  /// - [certainty]: The certainty level for primality testing (default: 64)
   ///
-  /// Exemplo de uso:
+  /// Returns an [AsymmetricKeyPair] containing both public and private RSA keys.
+  ///
+  /// The [bitLength] should be at least 2048 bits for security. Common values are:
+  /// - 2048 bits: Good security, faster operations
+  /// - 3072 bits: Higher security, moderate performance
+  /// - 4096 bits: Very high security, slower operations
+  ///
+  /// The [certainty] parameter controls the probability that generated primes
+  /// are actually prime. Higher values increase security but slow generation.
+  ///
+  /// Example:
   /// ```dart
-  /// final keyPair = RSAKeyUtils.generateKeyPair(bitLength: 2048, publicExponent: BigInt.parse('65537'));
+  /// // Generate 2048-bit key pair with default settings
+  /// final keyPair = RSAKeyUtils.generateKeyPair();
+  ///
+  /// // Generate 4096-bit key pair with custom exponent
+  /// final keyPair = RSAKeyUtils.generateKeyPair(
+  ///   bitLength: 4096,
+  ///   publicExponent: BigInt.from(65537)
+  /// );
+  ///
   /// final publicKey = keyPair.publicKey;
   /// final privateKey = keyPair.privateKey;
   /// ```
+  ///
+  /// See also:
+  /// - [RSAKeyParser] for parsing existing PEM-formatted keys
+  /// - [RSAOAEP] for using the generated keys in encryption operations
   static AsymmetricKeyPair<RSAPublicKey, RSAPrivateKey> generateKeyPair({
     BigInt? publicExponent,
     int bitLength = 2048,

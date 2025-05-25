@@ -9,6 +9,8 @@
 Implementação completa e pura de **RSAES-OAEP** (PKCS#1 v2.2) em **Dart**, com suporte a **SHA-256**.  
 Ideal para projetos que precisam de **criptografia assimétrica segura**, sem dependências nativas.
 
+> **🎯 Perfeito para Flutter, web e backend** - Funciona em todas as plataformas suportadas pelo Dart
+
 ## 📦 Compatibilidade
 
 Esta biblioteca é compatível com **Dart SDK 3.0.0 ou superior**.
@@ -23,39 +25,69 @@ Se o seu projeto ainda utiliza uma versão anterior do Dart ou Flutter, será ne
 
 ## 🚀 Funcionalidades
 
-✅ Suporte ao esquema **RSAES-OAEP** com MGF1.  
-✅ Compatível com **SHA-256** (default).  
-✅ Interoperável com **OpenSSL** (criptografia e descriptografia).  
-✅ Testes automatizados e exemplos práticos.  
-✅ Código puro Dart, ideal para Flutter e backend.
+✅ **Criptografia RSA-OAEP** com MGF1 conforme RFC 8017  
+✅ **SHA-256** como função hash (padrão recomendado)  
+✅ **Interoperabilidade** total com OpenSSL e outras bibliotecas  
+✅ **Geração de chaves** RSA segura (2048, 3072, 4096 bits)  
+✅ **Parser de chaves PEM** para importação/exportação  
+✅ **API simples** para strings e dados binários  
+✅ **Código puro Dart** - funciona em Flutter, web e backend  
+✅ **Testes abrangentes** com cobertura de código  
+✅ **Exemplos práticos** e documentação completa
 
 ## 🛠️ Como usar
 
-### Instalar
+### 📦 Instalação
 
-Adicione ao `pubspec.yaml`:
+Adicione ao seu `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  rsa_oaep_dart: ^0.1.4
+  rsa_oaep_dart: ^0.1.5
 ```
 
-Disponível no [pub.dev](https://pub.dev/packages/rsa_oaep_dart).
+Execute:
 
-### Importar
+```bash
+dart pub get
+```
+
+### 📥 Importação
 
 ```dart
 import 'package:rsa_oaep_dart/rsa_oaep_dart.dart';
 ```
 
-Veja mais detalhes na [documentação oficial](https://pub.dev/documentation/rsa_oaep_dart/latest/).
+### 📖 Documentação
+
+Veja a documentação completa da API em [pub.dev](https://pub.dev/documentation/rsa_oaep_dart/latest/).
 
 ## 💻 Exemplos
+
+### Uso básico
+
+```dart
+import 'package:rsa_oaep_dart/rsa_oaep_dart.dart';
+
+// Gerar par de chaves
+final keyPair = RSAKeyUtils.generateKeyPair(bitLength: 2048);
+
+// Criar instância OAEP com SHA-256
+final oaep = RSAOAEP(hash: SHA256Digest());
+
+// Criptografar mensagem
+final message = 'Olá, mundo!';
+final encrypted = oaep.encryptString(message, keyPair.publicKey);
+
+// Descriptografar mensagem
+final decrypted = oaep.decryptString(encrypted, keyPair.privateKey);
+print(decrypted); // Output: Olá, mundo!
+```
 
 ### Executar exemplos completos
 
 ```bash
-cd lib/example
+cd example
 make
 ```
 
@@ -67,9 +99,10 @@ make
 
 Inclui:  
 
-- Geração de chaves  
+- Geração de chaves RSA
 - Criptografia com Dart e OpenSSL  
-- Descriptografia com Dart e OpenSSL  
+- Descriptografia com Dart e OpenSSL
+- Testes de interoperabilidade  
 
 ## 🧪 Testes
 
@@ -93,43 +126,60 @@ Esta implementação segue as boas práticas de segurança para operações crip
 
 ## 📚 Interoperabilidade & Boas Práticas
 
-### Conversão de mensagens
+### 🔄 Conversão de mensagens
 
-Para garantir interoperabilidade com sistemas externos (KMS, OpenSSL, etc.):
+Para garantir interoperabilidade com sistemas externos (AWS KMS, OpenSSL, Java, Python, etc.):
 
-- **Sempre converta** sua mensagem para bytes usando UTF-8 ANTES de criptografar:
+**✅ Para criptografar:**
 
-  ```dart
-  Uint8List messageBytes = Uint8List.fromList(utf8.encode('Sua mensagem aqui'));
-  ```
+```dart
+// Sempre converta string para bytes UTF-8
+final messageBytes = Uint8List.fromList(utf8.encode('Sua mensagem'));
+final encrypted = oaep.encrypt(messageBytes, publicKey);
+```
 
-- Para descriptografar, o resultado será `Uint8List` (bytes).
-  - Para converter de volta para `String`:
+**✅ Para descriptografar:**
 
-  ```dart
-  String mensagem = utf8.decode(decryptedBytes);
-  ```
+```dart
+// O resultado é sempre bytes
+final decryptedBytes = oaep.decrypt(ciphertext, privateKey);
+// Converta de volta para string se necessário
+final message = utf8.decode(decryptedBytes);
+```
 
-### Transmissão e armazenamento
+### 📡 Transmissão e armazenamento
 
-- Se precisar transmitir ou armazenar o `ciphertext`, use Base64:
+Para transmitir ou armazenar dados criptografados:
 
-  ```dart
-  String ciphertextB64 = base64.encode(ciphertextBytes);
-  Uint8List ciphertextBytes = base64.decode(ciphertextB64);
-  ```
+```dart
+// Encode em Base64 para transmissão/armazenamento
+final ciphertextBase64 = base64.encode(ciphertext);
 
-### Sobre Base64
+// Decode Base64 antes de descriptografar
+final ciphertext = base64.decode(ciphertextBase64);
+```
 
-- Use `base64.decode()` **apenas** se a entrada foi originalmente codificada em Base64.
-- Não converta a mensagem original para Base64 antes de criptografar — utilize sempre bytes UTF-8.
+### ⚡ Métodos de conveniência
 
-### Resumo
+Para facilitar o uso com strings:
 
-- Entrada e saída dos métodos são sempre em `Uint8List` (bytes).
-- O usuário é responsável pela conversão adequada da mensagem e do ciphertext, conforme a necessidade da aplicação.
+```dart
+// Criptografar string diretamente (retorna Base64)
+final encryptedBase64 = oaep.encryptString('Mensagem', publicKey);
 
-Veja exemplos completos na [documentação oficial](https://pub.dev/documentation/rsa_oaep_dart/latest/).
+// Descriptografar Base64 diretamente (retorna string)
+final decrypted = oaep.decryptString(encryptedBase64, privateKey);
+```
+
+### 🔐 Limitações de tamanho
+
+RSA-OAEP tem limitações de tamanho da mensagem:
+
+- **Chave 2048-bit + SHA-256**: máximo 190 bytes
+- **Chave 3072-bit + SHA-256**: máximo 318 bytes  
+- **Chave 4096-bit + SHA-256**: máximo 446 bytes
+
+Para mensagens maiores, use criptografia híbrida (RSA + AES).
 
 ## ⚠️ Aviso de Segurança
 
@@ -148,27 +198,25 @@ Esta biblioteca é ideal para:
 
 Mas pode **não ser adequada** para casos onde segurança formalmente auditada é obrigatória.
 
-## 📊 Integração com Codecov
-
-Este projeto utiliza [Codecov](https://codecov.io/) para monitoramento de **cobertura de testes**.
-
-A cada `push` ou `pull request` para a branch `main`, o **GitHub Actions** executa automaticamente:
-
-- Análise de código
-- Testes automatizados
-- Geração de relatório de cobertura (`lcov.info`)
-- Upload para o Codecov
-
-O badge no topo deste README exibe a cobertura atualizada.
-
-Para visualizar o relatório completo, acesse:  
-[https://codecov.io/gh/gabrielscota/rsa_oaep_dart](https://codecov.io/gh/gabrielscota/rsa_oaep_dart)
-
 ## ✅ Roadmap
 
-- [ ] Suporte a SHA-1, SHA-512  
-- [ ] Suporte a labels customizados  
-- [ ] Automatização com CI/CD  
+- [ ] Suporte a **SHA-1** e **SHA-512**  
+- [ ] Suporte a **labels customizados** no OAEP  
+- [ ] **Benchmarks** de performance  
+- [ ] **Exemplos Flutter** com interface gráfica  
+- [ ] **Auditoria de segurança** profissional
+
+## 🤝 Contribuindo
+
+Contribuições são bem-vindas! Veja o [CONTRIBUTING.md](CONTRIBUTING.md) para diretrizes.
+
+### Como contribuir
+
+1. Fork o projeto
+2. Crie uma branch: `git checkout -b feature/nova-funcionalidade`
+3. Commit suas mudanças: `git commit -m 'Adiciona nova funcionalidade'`
+4. Push para a branch: `git push origin feature/nova-funcionalidade`
+5. Abra um Pull Request  
 
 ## 📄 Licença
 

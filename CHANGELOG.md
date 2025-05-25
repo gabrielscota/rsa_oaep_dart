@@ -1,5 +1,39 @@
 # Changelog
 
+## [0.1.5] - 2025-05-25
+
+### Added
+
+- Documentação completa da API em inglês seguindo as diretrizes do Dart/Flutter para todos os métodos e classes públicas.
+- Documentação detalhada da biblioteca principal (`rsa_oaep_dart.dart`) com seções de recursos, início rápido, interoperabilidade e notas de segurança.
+- README completo na pasta `example/` explicando como usar todos os exemplos práticos e comandos do Makefile.
+- Exemplos de uso em todas as funções e classes da API.
+- Referências cruzadas entre classes relacionadas na documentação.
+- Seções "See also" em métodos principais com links para RFC 3447 e classes relacionadas.
+
+### Improved
+
+- README principal expandido com seções mais detalhadas sobre funcionalidades, boas práticas e roadmap.
+- Documentação da classe `RSAOAEP` com exemplos práticos de criptografia/descriptografia e cálculos de tamanho máximo de mensagem.
+- Documentação da classe `RSAKeyUtils` com orientações de segurança sobre tamanhos de chave e parâmetros.
+- Documentação da classe `RSAKeyParser` com exemplos de uso e tratamento de exceções.
+- Documentação da função `mgf1` com explicação detalhada do algoritmo e referências ao RFC.
+- Documentação das funções utilitárias `os2ip` e `i2osp` com exemplos práticos e contexto criptográfico.
+
+### Enhanced
+
+- Todos os exemplos (`encrypt.dart`, `decrypt.dart`, `encrypt_string.dart`, `decrypt_string.dart`) agora possuem documentação completa explicando o fluxo de execução.
+- README do exemplo atualizado para ser consistente com os comandos reais disponíveis no Makefile.
+- Seção de contribuição expandida no README principal com guia passo-a-passo.
+- Seção de suporte adicionada com links organizados para documentação, exemplos e issues.
+
+### Documentation
+
+- Todas as classes, métodos e funções públicas agora seguem as convenções de documentação do Dart (`///`).
+- Exemplos de código adicionados em todas as funções principais.
+- Parâmetros, valores de retorno e exceções documentados consistentemente.
+- Notas de segurança e interoperabilidade incluídas onde relevante.
+
 ## [0.1.4] - 2025-05-22
 
 ### Added
