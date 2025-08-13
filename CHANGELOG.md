@@ -1,5 +1,20 @@
 # Changelog
 
+<!-- markdownlint-disable MD024 -->
+
+## [0.1.6] - 2025-08-13
+
+### Changed
+
+- README principal traduzido para inglês e reorganizado (Features, Getting started, Examples, Interoperability, Security, Roadmap, Contributing).
+- Versão de dependência no snippet do README atualizada para `^0.1.6`.
+- Alinhamento do README com os exemplos da pasta `example/` e com o Makefile (menu interativo e workflows).
+
+### Documentation
+
+- Melhor clareza nas seções de interoperabilidade (conversão UTF-8, Base64, limites de tamanho e métodos de conveniência).
+- Exemplos de código revisados para consistência.
+
 ## [0.1.5] - 2025-05-25
 
 ### Added

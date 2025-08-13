@@ -6,218 +6,179 @@
 [![Dart SDK](https://img.shields.io/badge/Dart-%3E%3D3.0.0-blue)](https://dart.dev)
 [![codecov](https://codecov.io/gh/gabrielscota/rsa_oaep_dart/branch/main/graph/badge.svg)](https://codecov.io/gh/gabrielscota/rsa_oaep_dart)
 
-Implementação completa e pura de **RSAES-OAEP** (PKCS#1 v2.2) em **Dart**, com suporte a **SHA-256**.  
-Ideal para projetos que precisam de **criptografia assimétrica segura**, sem dependências nativas.
+Pure Dart implementation of **RSAES-OAEP** (PKCS#1 v2.2) with **SHA-256** support.  
+Ideal for projects that need secure asymmetric encryption without native dependencies.
 
-> **🎯 Perfeito para Flutter, web e backend** - Funciona em todas as plataformas suportadas pelo Dart
+> Works on Flutter, web, and backend — anywhere Dart runs.
 
-## 📦 Compatibilidade
+## Compatibility
 
-Esta biblioteca é compatível com **Dart SDK 3.0.0 ou superior**.
+This library supports **Dart SDK 3.0.0 or newer** and **Flutter 3.10+**.
 
-Dart 3.0.0 foi lançado em maio de 2023, junto com **Flutter 3.10**.  
-Portanto, este pacote é compatível com projetos que utilizam:  
+- Dart: >=3.0.0 <4.0.0
+- Flutter: >=3.10.0
 
-- **Dart**: >=3.0.0 <4.0.0  
-- **Flutter**: >=3.10.0
+## Features
 
-Se o seu projeto ainda utiliza uma versão anterior do Dart ou Flutter, será necessário atualizá-lo para utilizar este pacote.
+- RSAES-OAEP with MGF1 as specified in RFC 8017
+- SHA-256 hash (recommended default)
+- Full interoperability with OpenSSL and other toolchains
+- Secure RSA key generation (2048, 3072, 4096 bits)
+- PEM key parsing for import/export
+- Simple API for strings and binary data
+- Pure Dart code — great for Flutter, web, and server
+- Extensive tests and practical examples
 
-## 🚀 Funcionalidades
+## Getting started
 
-✅ **Criptografia RSA-OAEP** com MGF1 conforme RFC 8017  
-✅ **SHA-256** como função hash (padrão recomendado)  
-✅ **Interoperabilidade** total com OpenSSL e outras bibliotecas  
-✅ **Geração de chaves** RSA segura (2048, 3072, 4096 bits)  
-✅ **Parser de chaves PEM** para importação/exportação  
-✅ **API simples** para strings e dados binários  
-✅ **Código puro Dart** - funciona em Flutter, web e backend  
-✅ **Testes abrangentes** com cobertura de código  
-✅ **Exemplos práticos** e documentação completa
+### Install
 
-## 🛠️ Como usar
-
-### 📦 Instalação
-
-Adicione ao seu `pubspec.yaml`:
+Add to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  rsa_oaep_dart: ^0.1.5
+  rsa_oaep_dart: ^0.1.6
 ```
 
-Execute:
+Then run:
 
 ```bash
 dart pub get
 ```
 
-### 📥 Importação
+### Import
 
 ```dart
 import 'package:rsa_oaep_dart/rsa_oaep_dart.dart';
 ```
 
-### 📖 Documentação
+### Docs
 
-Veja a documentação completa da API em [pub.dev](https://pub.dev/documentation/rsa_oaep_dart/latest/).
+Read the full API docs on [pub.dev](https://pub.dev/documentation/rsa_oaep_dart/latest/).
 
-## 💻 Exemplos
+## Examples
 
-### Uso básico
+### Basic usage
 
 ```dart
 import 'package:rsa_oaep_dart/rsa_oaep_dart.dart';
 
-// Gerar par de chaves
+// Generate a key pair
 final keyPair = RSAKeyUtils.generateKeyPair(bitLength: 2048);
 
-// Criar instância OAEP com SHA-256
+// Create OAEP instance with SHA-256
 final oaep = RSAOAEP(hash: SHA256Digest());
 
-// Criptografar mensagem
-final message = 'Olá, mundo!';
+// Encrypt message
+final message = 'Hello, world!';
 final encrypted = oaep.encryptString(message, keyPair.publicKey);
 
-// Descriptografar mensagem
+// Decrypt message
 final decrypted = oaep.decryptString(encrypted, keyPair.privateKey);
-print(decrypted); // Output: Olá, mundo!
+print(decrypted); // Output: Hello, world!
 ```
 
-### Executar exemplos completos
+### Run the full example suite
 
 ```bash
 cd example
 make
 ```
 
-### Menu interativo
+The interactive menu includes:
 
-```bash
-make
-```
+- RSA key generation
+- Encrypt with Dart and OpenSSL
+- Decrypt with Dart and OpenSSL
+- Interoperability workflows
 
-Inclui:  
-
-- Geração de chaves RSA
-- Criptografia com Dart e OpenSSL  
-- Descriptografia com Dart e OpenSSL
-- Testes de interoperabilidade  
-
-## 🧪 Testes
+## Testing
 
 ```bash
 dart test
 ```
 
-## ✅ Conformidade
+## Compliance
 
-- RFC 8017 — PKCS#1 v2.2  
-- MGF1 com SHA-256  
-- Compatível com `openssl pkeyutl` para interoperabilidade.
+- RFC 8017 — PKCS#1 v2.2
+- MGF1 with SHA-256
+- Compatible with `openssl pkeyutl`
 
-## 🔒 Segurança
+## Security notes
 
-Esta implementação segue as boas práticas de segurança para operações criptográficas:  
+This library follows best practices for cryptographic operations:
 
-- Geração segura de chaves  
-- Uso correto de OAEP e MGF1  
-- Tratamento de mensagens inválidas
+- Secure key generation
+- Correct OAEP + MGF1 usage
+- Proper invalid-message handling
 
-## 📚 Interoperabilidade & Boas Práticas
+## Interoperability and best practices
 
-### 🔄 Conversão de mensagens
+### Message conversion
 
-Para garantir interoperabilidade com sistemas externos (AWS KMS, OpenSSL, Java, Python, etc.):
-
-**✅ Para criptografar:**
+To interoperate with external systems (AWS KMS, OpenSSL, Java, Python, etc.):
 
 ```dart
-// Sempre converta string para bytes UTF-8
-final messageBytes = Uint8List.fromList(utf8.encode('Sua mensagem'));
+// Always convert strings to UTF-8 bytes before encrypting
+final messageBytes = Uint8List.fromList(utf8.encode('Your message'));
 final encrypted = oaep.encrypt(messageBytes, publicKey);
 ```
 
-**✅ Para descriptografar:**
-
 ```dart
-// O resultado é sempre bytes
+// Decrypt returns bytes — convert to String if needed
 final decryptedBytes = oaep.decrypt(ciphertext, privateKey);
-// Converta de volta para string se necessário
 final message = utf8.decode(decryptedBytes);
 ```
 
-### 📡 Transmissão e armazenamento
+### Transport and storage
 
-Para transmitir ou armazenar dados criptografados:
+Use Base64 for transport or storage:
 
 ```dart
-// Encode em Base64 para transmissão/armazenamento
 final ciphertextBase64 = base64.encode(ciphertext);
-
-// Decode Base64 antes de descriptografar
 final ciphertext = base64.decode(ciphertextBase64);
 ```
 
-### ⚡ Métodos de conveniência
-
-Para facilitar o uso com strings:
+### Convenience methods
 
 ```dart
-// Criptografar string diretamente (retorna Base64)
-final encryptedBase64 = oaep.encryptString('Mensagem', publicKey);
+// Encrypt a String (returns Base64)
+final encryptedBase64 = oaep.encryptString('Message', publicKey);
 
-// Descriptografar Base64 diretamente (retorna string)
+// Decrypt Base64 (returns String)
 final decrypted = oaep.decryptString(encryptedBase64, privateKey);
 ```
 
-### 🔐 Limitações de tamanho
+### Message size limits
 
-RSA-OAEP tem limitações de tamanho da mensagem:
+RSA-OAEP has maximum input sizes:
 
-- **Chave 2048-bit + SHA-256**: máximo 190 bytes
-- **Chave 3072-bit + SHA-256**: máximo 318 bytes  
-- **Chave 4096-bit + SHA-256**: máximo 446 bytes
+- 2048-bit key + SHA-256: 190 bytes
+- 3072-bit key + SHA-256: 318 bytes
+- 4096-bit key + SHA-256: 446 bytes
 
-Para mensagens maiores, use criptografia híbrida (RSA + AES).
+For larger payloads, use hybrid crypto (RSA + AES).
 
-## ⚠️ Aviso de Segurança
+## Roadmap
 
-Esta biblioteca é uma **implementação pura em Dart** dos algoritmos RSA OAEP com MGF1 e SHA-256.  
-Ela **não foi auditada** por especialistas em segurança para uso em ambientes críticos ou produção sensível.  
+- [ ] SHA-1 and SHA-512 support
+- [ ] Custom OAEP labels
+- [ ] Performance benchmarks
+- [ ] Flutter UI example app
+- [ ] Security audit
 
-**Recomenda-se**:  
-✅ Revisão do código por especialistas antes de uso em sistemas de segurança sensível.  
-✅ Utilização consciente das limitações de uma implementação em linguagem de alto nível como Dart.  
+## Contributing
 
-Esta biblioteca é ideal para:  
+Contributions are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md).
 
-- Prototipagem  
-- Estudos  
-- Aplicações não críticas
+### How to contribute
 
-Mas pode **não ser adequada** para casos onde segurança formalmente auditada é obrigatória.
+1. Fork the repo
+2. Create a branch: `git checkout -b feature/your-change`
+3. Commit: `git commit -m 'feat: add your change'`
+4. Push: `git push origin feature/your-change`
+5. Open a Pull Request
 
-## ✅ Roadmap
+## License
 
-- [ ] Suporte a **SHA-1** e **SHA-512**  
-- [ ] Suporte a **labels customizados** no OAEP  
-- [ ] **Benchmarks** de performance  
-- [ ] **Exemplos Flutter** com interface gráfica  
-- [ ] **Auditoria de segurança** profissional
-
-## 🤝 Contribuindo
-
-Contribuições são bem-vindas! Veja o [CONTRIBUTING.md](CONTRIBUTING.md) para diretrizes.
-
-### Como contribuir
-
-1. Fork o projeto
-2. Crie uma branch: `git checkout -b feature/nova-funcionalidade`
-3. Commit suas mudanças: `git commit -m 'Adiciona nova funcionalidade'`
-4. Push para a branch: `git push origin feature/nova-funcionalidade`
-5. Abra um Pull Request  
-
-## 📄 Licença
-
-MIT — veja o arquivo [LICENSE](LICENSE).
+MIT — see [LICENSE](LICENSE).
